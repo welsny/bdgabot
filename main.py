@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from codecs import open
+import hashlib
 import requests
 
 def send_alert():
@@ -11,19 +11,20 @@ def send_alert():
     pass
 
 if __name__ == '__main__':
-    file = '/Users/lola/code/bdgabot/data.htm'
+    file = '/Users/lola/code/bdgabot/data.md5'
 
-    with open(file, 'r', 'utf-8') as f:
+    with open(file) as f:
         prev = f.read()
 
     r = requests.get('https://shop.bdgastore.com/collections/new-arrivals')
-    curr = r.text
+    curr = hashlib.md5(r.text.encode('utf-8')).hexdigest()
 
     if prev != curr:
         print 'not equal'
-        with open(file, 'w', 'utf-8') as f:
+        send_alert()
+        with open(file, 'w') as f:
             f.write(curr)
 
     else:
-        send_alert()
+        print 'equal'
 
