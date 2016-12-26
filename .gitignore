@@ -1,0 +1,4 @@
+*.pyc
+
+data.sha1
+twilio_credentials.py
