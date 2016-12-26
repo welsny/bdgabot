@@ -3,28 +3,38 @@
 
 import hashlib
 import requests
+import time
 
-def send_alert():
-    """
-    TODO: Send an alert to the user when the page updates
-    """
-    pass
+import twilio_credentials as tc
+from twilio.rest import TwilioRestClient
 
-if __name__ == '__main__':
-    file = '/Users/lola/code/bdgabot/data.md5'
+def main():
+    """ Check if Bodega's New Arrivals page has updated """
+    file = './data.sha1'
 
     with open(file) as f:
         prev = f.read()
 
     r = requests.get('https://shop.bdgastore.com/collections/new-arrivals')
-    curr = hashlib.md5(r.text.encode('utf-8')).hexdigest()
+    curr = hashlib.sha1(r.text.encode('utf-8')).hexdigest()
 
     if prev != curr:
-        print 'not equal'
+        print 'Stock has updated! Text alert sent.'
         send_alert()
         with open(file, 'w') as f:
             f.write(curr)
 
     else:
-        print 'equal'
+        print 'Stock has not yet updated.'
+
+def send_alert():
+    """ Sends an SMS alert via. Twilio """
+    client.messages.create(to=tc.welsny_cell, from_=tc.twilio_cell,
+                                     body="Bodega has updated")
+
+if __name__ == '__main__':
+    client = TwilioRestClient(tc.account_sid, tc.auth_token)
+    while True:
+        main()
+        time.sleep(600)
 
