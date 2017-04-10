@@ -1,4 +1,5 @@
-### bdgabot
+bdgabot
+-------
 
 This script periodically checks for new arrivals at *Bodega*, Boston's famous [hidden sneaker store](http://vergecampus.com/2016/04/bodega-bostons-best-kept-sneaker-secret/).
 
@@ -6,9 +7,8 @@ This script periodically checks for new arrivals at *Bodega*, Boston's famous [h
 
 To accomplish this, we periodically make HTTP requests Bodega's `New Arrivals` page and compare the response via `SHA1`. If the current hash does not match the previous one, we know that the page has updated. We then send ourselves an SMS alert via Twilio. 
 
--
-
-##### Setup
+Setup
+-----
 
 First, you must install Twilio:
 
@@ -29,14 +29,12 @@ Finally, run the script:
 
 ```./main.py &```
 
--
-
-##### Configuration
+Configuration
+-------------
 
 You can configure the delay between checks in `main.py`. You can also configure this script to run on different web pages. 
 
--
-
-##### Misc.
+Misc.
+-----
 
 For those of you interested in fashion, check out [my page on Grailed](https://www.grailed.com/users/120044-wslyksfbs/wardrobe)! Discount if I know you irl 😂
